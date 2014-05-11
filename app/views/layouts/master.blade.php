@@ -3,7 +3,7 @@
     <head>
         <title>
             @section('title')
-            Laravel 4 - Tutorial
+            OrlyAtomics
             @show
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +55,9 @@
             @yield('content')
         </div>
         <!-- Scripts are placed here -->
+        @section('script')
         {{ HTML::script('js/jquery.min.js') }}
         {{ HTML::script('js/bootstrap.min.js') }}
+        @show
     </body>
 </html>
