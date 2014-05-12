@@ -11,9 +11,7 @@ define(['jquery'], function($) {
       alert('WebSockets not supported by your browser.');
       return;
     }  // if
-    websocket = new WebSocket('ws://echo.websocket.org');
-    // TODO: Talk to the orlyi websocket interface.
-    // websocket = new WebSocket('ws://127.0.0.1:8082/');
+    websocket = new WebSocket('ws://127.0.0.1:8082/');
     websocket.onopen = function(result) {
       toggle_ui(true /* is_connected */);
     };
