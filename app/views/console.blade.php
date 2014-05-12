@@ -14,8 +14,3 @@
 </div>
 @stop
 
-@section('script')
-@parent
-{{ HTML::script('js/console.js'); }}
-@stop
-

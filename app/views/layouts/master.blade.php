@@ -56,8 +56,8 @@
         </div>
         <!-- Scripts are placed here -->
         @section('script')
-        {{ HTML::script('js/jquery.min.js') }}
-        {{ HTML::script('js/bootstrap.min.js') }}
+        {{ HTML::script('js/require.min.js') }}
+        {{ HTML::script('js/main.js') }}
         @show
     </body>
 </html>
