@@ -10,7 +10,11 @@ packages = {
                 '  name = given::(str);\n' +
                 '};\n',
      'package_num' : 0,
-     'functions' : ['hello_world']},
+     'functions' : {
+       'hello_world' : {
+         'name' : '"orlyatomics"'
+       }
+     }},
   'database' :
     {'source' : '/* Database */\n' +
                 '\n' +
@@ -40,7 +44,19 @@ packages = {
                 '  x = given::(int);\n' +
                 '};',
      'package_num' : 1,
-     'functions' : ['read_val', 'write_val', 'conditional_append']}
+     'functions' : {
+       'read_val' : {
+         'n' : 101
+       },
+       'write_val' : {
+         'n' : 202,
+         'x' : 42
+       },
+       'conditional_append' : {
+         'n' : 303,
+         'x' : 24
+       }
+     }}
 };
 
 define([ 'jquery', 'bootstrap' ], function($) {
@@ -62,14 +78,6 @@ define([ 'jquery', 'bootstrap' ], function($) {
     };
     websocket.send(msg);
     log('sent: ' + msg);
-  }
-  // Set the functions options.
-  function set_functions(options) {
-    $('#function').empty();
-    $.each(options, function(key, val) {
-      $('#function').append($('<option></option>')
-                    .attr('value', val).text(val));
-    });
   }
   // Toggle the UI based on the state of the console.
   function toggle_ui(is_connected) {
@@ -104,21 +112,39 @@ define([ 'jquery', 'bootstrap' ], function($) {
   });
   // The packages that we have available.
   $.each(packages, function(name, info) {
-    button = $('#' + name);
-    button.click(function() {
-      if (button.hasClass('active')) {
-        return;
-      }  // if
+    var button = $('#' + name);
+    button.change(function() {
       $('#orlyscript').val(info.source);
       send('new session;', function(resp) {
         send('new fast private pov;', function(resp) {
           var data = $.parseJSON(resp.data);
           var id = data.result;
           send('install ' + name + '.' + info.package_num + ';', function(resp) {
-            set_functions(info.functions);
-            $('#run').unbind('click').click(function() {
+            $('#function').empty();
+            $.each(info.functions, function(key, val) {
+              $('#function').append($('<option></option>')
+                                    .attr('value', key).text(key));
+            });
+            $('#function').unbind().change(function() {
+              $('#args tbody').empty();
+              $.each(info.functions[$('#function').val()], function(key, val) {
+                $('#args tbody').append(
+                    '<tr>' +
+                      '<td>' + key + '</td>' +
+                      "<td><input id=" + key + " type='text' value='" + val + "'></td>" +
+                    '</tr>');
+              });
+            }).change();
+            $('#run').unbind().click(function() {
+              var args = [];
+              $.each($('#args input'), function(key, input) {
+                var id = $(input).attr('id');
+                var val = $(input).val();
+                args.push('.' + id + ':' + val);
+              });
               send('try {' + id + '} ' + name + ' ' +
-                   $('#function').val() + ' ' + $('#args').val() + ';');
+                   $('#function').val() + ' ' +
+                   '<{' + args.join(', ') + '}>;');
             });
             $('#run').prop('disabled', false);
           });
