@@ -9,18 +9,12 @@
 <div class='container'>
   <div class='page-header'>
     <h1>Sample Datasets <small>Click to load and play</small></h1>
-    <div class='btn-group'>
-      {{ Form::button('Connect', array('class' => 'btn btn-default',
-                                       'id' => 'connect')); }}
-      {{ Form::button('Disconnect', array('class' => 'btn btn-default',
-                                          'id' => 'disconnect')); }}
-    </div>
     <div class='btn-group' data-toggle='buttons'>
-      <label id='hello_world' class='btn btn-default dataset'>
-        <input type='radio'> Hello World
+      <label id='matrix' class='btn btn-default dataset'>
+        <input type='radio'> The Matrix
       </label>
-      <label id='database' class='btn btn-default dataset'>
-        <input type='radio'> Database
+      <label id='beer' class='btn btn-default dataset'>
+        <input type='radio'> Beer
       </label>
     </div>
   </div>
@@ -45,16 +39,6 @@
           </tr>
         </thead>
         <tbody>
-{{--
-          <tr>
-            <td>n</td>
-            <td><input type='text' placeholder='num'></td>
-          </tr>
-          <tr>
-            <td>x</td>
-            <td><input type='text' placeholder='str'></td>
-          </tr>
---}}
         </tbody>
       </table>
     </div>
@@ -63,6 +47,9 @@
                                    'id' => 'run')); }}
     </div>
   </div>
+  <table class='table' id='table'></table>
+  <div id='graph'></div>
+  <div id='legend'></div>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h3 class='panel-title'><b>Log</b></h3>

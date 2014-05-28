@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- CSS are placed here -->
         {{ HTML::style('css/bootstrap.css') }}
+        {{ HTML::style('css/graph.css') }}
     </head>
     <body>
      <!-- Static navbar -->
