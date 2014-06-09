@@ -1,133 +1,51 @@
 packages = {
   'matrix' : {
     'address' : 'ws://127.0.0.1:8082/',
-    'data' : 'matrix.bin',
     'source' : '/* Matrix */\n' +
                '\n' +
-               '/* Set up nodes and edges. */\n' +
-               'setup = (<{.type: "null"}>) effecting {\n' +
-               '  new <[0]> <- "Neo";\n' +
-               '  new <[1]> <- "Morpheus";\n' +
-               '  new <[2]> <- "Trinity";\n' +
-               '  new <[3]> <- "Cypher";\n' +
-               '  new <[4]> <- "Agent Smith";\n' +
-               '  new <[5]> <- "The Architect";\n' +
-               '  new <[0, "Knows", 1]> <- true;\n' +
-               '  new <[0, "Loves", 2]> <- true;\n' +
-               '  new <[1, "Knows", 2]> <- true;\n' +
-               '  new <[1, "Knows", 3]> <- true;\n' +
-               '  new <[3, "Knows", 4]> <- true;\n' +
-               '  new <[4, "CodedBy", 5]> <- true;\n' +
-               '};\n' +
-               '\n' +
-               'node_t is <{.name: str}>;\n' +
-               'link_t is <{.source: int, .type: str, .target: int}>;\n' +
-               '\n' +
-               'display_graph = (<{.type: "graph",\n' +
-               '                   .data: <{.nodes: nodes as [node_t],\n' +
-               '                            .links: links as [link_t]}>}>) where {\n' +
-               '  nodes = <{.name: *(keys (str) @ <[free::(int)]>)::(str)}>;\n' +
-               '  links = (<{.source: tuples.0, .type: tuples.1, .target: tuples.2}>) where {\n' +
-               '    tuples = keys (bool) @ <[free::(int), free::(str), free::(int)]>;\n' +
-               '  };\n' +
-               '};\n' +
-               '\n' +
-               '/* Type aliases. */\n' +
-               'path_t is [int];\n' +
-               'entry_t is {str: str};\n' +
-               '\n' +
-               '/* Given a path, explore one more depth and return a list of paths. */\n' +
-               'get_neighbors_helper = (path + [next] as [path_t]) where {\n' +
-               '  path = given::(path_t);\n' +
-               '  edge = given::(str);\n' +
-               '  visited = given::({int});\n' +
-               '  last = path[length_of path - 1];\n' +
-               '  next = (keys (bool) @ <[last, edge, free::(int)]>).2 if not (that in visited);\n' +
-               '};\n' +
-               '\n' +
-               '/* Given a list of paths of length N, explore one more depth to return a list of\n' +
-               '   paths of length N + 1. */\n' +
-               'get_neighbors = (seq reduce start empty [path_t] + that) where {\n' +
-               '  paths = given::([path_t]);\n' +
-               '  edge = given::(str);\n' +
-               '  visited = given::({int});\n' +
-               '  seq = get_neighbors_helper(.path: **paths, .edge: edge, .visited: visited);\n' +
-               '};\n' +
-               '\n' +
-               '/* Returns a list of valid paths. */\n' +
-               'bfs_helper = ((paths \n' +
-               '               if neighbors is empty else \n' +
-               '               paths + bfs_helper(.paths: neighbors, .edge: edge, .visited: new_visited))) where {\n' +
-               '  paths = given::([path_t]);\n' +
-               '  edge = given::(str);\n' +
-               '  visited = given::({int});\n' +
-               '  new_visited = visited | (**paths reduce start empty {int} | (**that as {int}));\n' +
-               '  neighbors = get_neighbors(.paths: paths, .edge: edge, .visited: new_visited);\n' +
-               '};\n' +
-               '\n' +
-               'bfs = (bfs_helper(.paths: init, .edge: edge, .visited: visited)) where {\n' +
-               '  n = given::(int);\n' +
-               '  edge = given::(str);\n' +
-               '  paths = [[n]];\n' +
-               '  visited = {n};\n' +
-               '  init = get_neighbors(.paths : paths, .edge: edge, .visited: visited);\n' +
-               '};\n' +
-               '\n' +
-               '/* Format a path to an dict of type {str}. */\n' +
-               'format = ({"A: first": first, "B: path": join(.strs: (seq as [str]), .delimiter: " -> "), "C: last": last}) where {\n' +
-               '  path = given::(path_t);\n' +
-               '  first = *<[path[0]]>::(str);\n' +
-               '  last = *<[path[length_of path - 1]]>::(str);\n' +
-               '  seq = *<[**path]>::(str);\n' +
-               '};\n' +
-               '\n' +
-               'display_bfs = (<{.type: "table",\n' +
-               '                 .data: format(.path: **bfs(.n: n, .edge: edge)) as [entry_t]}>) where {\n' +
-               '  n = given::(int);\n' +
-               '  edge = given::(str);\n' +
-               '};\n' +
-               '\n' +
-               'join = (("" if strs is empty else \n' +
-               '         strs[0] + (**(strs[1:]) reduce start "" + delimiter + that))) where {\n' +
-               '  strs = given::([str]);\n' +
-               '  delimiter = given::(str);\n' +
-               '};\n' +
-               '\n' +
-               'test {\n' +
-               '  join(.strs: empty [str], .delimiter: ", ") == "";\n' +
-               '  join(.strs: ["x"], .delimiter: ", ") == "x";\n' +
-               '  join(.strs: ["x", "y"], .delimiter: ", ") == "x, y";\n' +
-               '};\n' +
-               '\n' +
-               'test {\n' +
-               '  setup.type == "null" {\n' +
-               '    bfs(.n: 0, .edge: "Knows") == [[0, 1], [0, 1, 2], [0, 1, 3], [0, 1, 3, 4]];\n' +
-               '  };\n' +
-               '};\n',
+               'package #1;\n',
     'package_num' : 0,
     'functions' : {
       'setup': {},
       'display_bfs' : {
         'n' : 0,
-        'edge' : '"Knows"'
+        'edge' : '"Knows"',
       },
       'display_graph' : {},
-    }
+    },
   },
-  'beer' : {
-    'address' : 'ws://127.0.0.1:8084/',
-    'data' : 'beer.bin',
-    'source' : '/* Beer */\n' +
+  'twitter' : {
+    'address' : 'ws://127.0.0.1:8082/',
+    'source' : '/* Twitter */\n' +
                 '\n' +
                 'package #1;\n',
     'package_num' : 1,
     'functions' : {
-      'beer' : {
-        /*
-        'n' : 101
-        */
-      }
-    }
+      'users' : {},
+      'total_tweet_count' : {},
+      'tweet_count' : {
+        'uid': 0,
+      },
+      'tweets' : {
+        'uid': 0,
+      },
+      'responded_to' : {
+        'uid': 0,
+      },
+      'top_users' : {
+        'n': 10,
+      },
+      'top_kgrams' : {
+        'n': 10,
+        'k': 2,
+      },
+      'top_pairs': {
+        'n': 10,
+      },
+      'top_replied': {
+        'n': 10,
+      },
+    },
   },
 };
 
@@ -165,7 +83,7 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
       $('#table tbody').append(tbody);
     });
   }
-  function render_graph(data) {
+  function render_graph(links) {
     empty();
     var width = 720, height = 300;
     var color = d3.scale.category10();
@@ -190,14 +108,23 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
          .attr('orient', 'auto')
          .append('svg:path')
          .attr('d', 'M0,-5L10,0L0,5');
-    var nodes = data.nodes.slice(), links = [], bilinks = [];
-    data.links.forEach(function(link) {
-      var source = nodes[link.source],
+    var node_map = {}, augmented_links = [], bilinks = [];
+    console.log(links);
+    links.forEach(function(link) {
+      link.source = node_map[link.source] ||
+                    (node_map[link.source] = {name : link.source});
+      link.target = node_map[link.target] ||
+                    (node_map[link.target] = {name : link.target});
+    });
+    var nodes = d3.values(node_map);
+    var augmented_nodes = d3.values(node_map);
+    links.forEach(function(link) {
+      var source = link.source,
           edge = {},
-          target = nodes[link.target],
+          target = link.target,
           type = link.type;
-      nodes.push(edge);
-      links.push({source: source, target: edge}, {source: edge, target: target});
+      augmented_nodes.push(edge);
+      augmented_links.push({source: source, target: edge}, {source: edge, target: target});
       bilinks.push({
         source: source,
         edge: edge,
@@ -205,8 +132,8 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
         type: link.type
       });
     });
-    force.nodes(nodes)
-         .links(links)
+    force.nodes(augmented_nodes)
+         .links(augmented_links)
          .charge(-300)
          .start();
     var link = graph.selectAll('.link')
@@ -217,7 +144,7 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
                     .attr('marker-end', 'url(#end)')
                     .style('stroke', function(d) { return color(d.type); });
     var node = graph.selectAll('.node')
-                    .data(data.nodes)
+                    .data(nodes)
                     .enter()
                     .append('circle')
                     .attr('class', 'node')
@@ -225,13 +152,13 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
                     .style('fill', function(d) { return color(d.name); })
                     .call(force.drag);
     node.append('title').text(function(d) { return d.name; });
-    var link_types = $.unique(data.links.map(function(d) { return d.type; }));
+    var link_types = $.unique(links.map(function(d) { return d.type; }));
     var legend = d3.select('#legend')
                    .append('svg')
                    .attr('width', 720)
-                   .attr('height', 10 + Math.max(data.nodes.length, link_types.length) * 20);
+                   .attr('height', 10 + Math.max(nodes.length, link_types.length) * 20);
     var legend_node = legend.selectAll('.legend_node')
-                            .data(data.nodes)
+                            .data(nodes)
                             .enter()
                             .append('g')
                             .attr('class', 'legend_node')
@@ -300,74 +227,65 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
       };
       websocket.onopen = function(resp) {
         send('new session;', function(resp) {
-          /*
-          send('begin import;', function(resp) {
-            send('import "' + info.data + '" 1 1 1;', function(resp) {
-              send('end import;', function(resp) {
-              */
-                send('install ' + name + '.' + info.package_num + ';', function(resp) {
-                  send('new fast private pov;', function(resp) {
+          send('install ' + name + '.' + info.package_num + ';', function(resp) {
+            send('new fast private pov;', function(resp) {
+              var data = $.parseJSON(resp.data);
+              var id = data.result;
+              button.change(function() {
+                // Display source.
+                $('#orlyscript').val(info.source);
+                // Populate the list of functions.
+                $('#function').empty();
+                $.each(info.functions, function(key, val) {
+                  $('#function').append($('<option></option>')
+                                        .attr('value', key).text(key));
+                });
+                // Populate the args table depending on the selected function.
+                $('#function').unbind().change(function() {
+                  $('#args tbody').empty();
+                  $.each(info.functions[$('#function').val()], function(key, val) {
+                    $('#args tbody').append(
+                        '<tr>' +
+                        '<td>' + key + '</td>' +
+                        "<td><input id=" + key + " type='text' value='" + val + "'></td>" +
+                        '</tr>');
+                  });
+                }).change();
+                // Bind run button to the 'try' statement.
+                $('#run').unbind().click(function() {
+                  var args = [];
+                  $.each($('#args input'), function(idx, input) {
+                    var id = $(input).attr('id');
+                    var val = $(input).val();
+                    args.push('.' + id + ':' + val);
+                  });
+                  send('try {' + id + '} ' + name + ' ' +
+                       $('#function').val() + ' ' +
+                       '<{' + args.join(', ') + '}>;', function(resp) {
                     var data = $.parseJSON(resp.data);
-                    var id = data.result;
-                    button.change(function() {
-                      // Display source.
-                      $('#orlyscript').val(info.source);
-                      // Populate the list of functions.
-                      $('#function').empty();
-                      $.each(info.functions, function(key, val) {
-                        $('#function').append($('<option></option>')
-                                              .attr('value', key).text(key));
-                      });
-                      // Populate the args table depending on the selected function.
-                      $('#function').unbind().change(function() {
-                        $('#args tbody').empty();
-                        $.each(info.functions[$('#function').val()], function(key, val) {
-                          $('#args tbody').append(
-                              '<tr>' +
-                              '<td>' + key + '</td>' +
-                              "<td><input id=" + key + " type='text' value='" + val + "'></td>" +
-                              '</tr>');
-                        });
-                      }).change();
-                      // Bind run button to the 'try' statement.
-                      $('#run').unbind().click(function() {
-                        var args = [];
-                        $.each($('#args input'), function(idx, input) {
-                          var id = $(input).attr('id');
-                          var val = $(input).val();
-                          args.push('.' + id + ':' + val);
-                        });
-                        send('try {' + id + '} ' + name + ' ' +
-                             $('#function').val() + ' ' +
-                             '<{' + args.join(', ') + '}>;', function(resp) {
-                          var data = $.parseJSON(resp.data);
-                          if (data.status !== "ok") {
-                            return;
-                          }  // if
-                          var result = data.result;
-                          switch (result.type) {
-                            case 'null': {
-                              break;
-                            }  // case
-                            case 'table': {
-                              render_table(result.data);
-                              break;
-                            }  // case
-                            case 'graph': {
-                              render_graph(result.data);
-                              break;
-                            }  // case
-                          }  // switch
-                        });
-                      });
-                    }).change();
+                    if (data.status !== "ok") {
+                      return;
+                    }  // if
+                    var result = data.result;
+                    switch (result.type) {
+                      case 'table': {
+                        render_table(result.data);
+                        break;
+                      }  // case
+                      case 'graph': {
+                        render_graph(result.data);
+                        break;
+                      }  // case
+                      default: {
+                        console.log(result);
+                        break;
+                      }  // default
+                    }  // switch
                   });
                 });
-                /*
-              });
+              }).change();
             });
           });
-        */
         });
       }
     });

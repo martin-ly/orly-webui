@@ -13,8 +13,8 @@
       <label id='matrix' class='btn btn-default dataset'>
         <input type='radio'> The Matrix
       </label>
-      <label id='beer' class='btn btn-default dataset'>
-        <input type='radio'> Beer
+      <label id='twitter' class='btn btn-default dataset'>
+        <input type='radio'> Twitter
       </label>
     </div>
   </div>
@@ -55,8 +55,8 @@
       <h3 class='panel-title'><b>Log</b></h3>
     </div>
     {{ Form::textarea('log', '', array('disabled',
-                                          'class' => 'form-control',
-                                          'id' => 'log')); }}
+                                       'class' => 'form-control',
+                                       'id' => 'log')); }}
   </div>
 </div>
 @stop
