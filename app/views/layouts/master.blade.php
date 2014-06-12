@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- CSS are placed here -->
         {{ HTML::style('css/bootstrap.css') }}
+        {{ HTML::style('css/graph.css') }}
     </head>
     <body>
      <!-- Static navbar -->
@@ -21,12 +22,12 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Dashboard</a>
+            <a class="navbar-brand" href="/">Dashboard</a>
           </div>
           <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Link</a></li>
-              <li><a href="#">Link</a></li>
+              <li class="active"><a href="/">Home</a></li>
+              <li><a href="/console">Console</a></li>
               <li><a href="#">Link</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -56,8 +57,8 @@
         </div>
         <!-- Scripts are placed here -->
         @section('script')
-        {{ HTML::script('js/jquery.min.js') }}
-        {{ HTML::script('js/bootstrap.min.js') }}
+        {{ HTML::script('js/require.min.js') }}
+        {{ HTML::script('js/main.js') }}
         @show
     </body>
 </html>
