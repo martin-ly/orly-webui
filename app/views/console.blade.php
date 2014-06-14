@@ -9,21 +9,18 @@
 <div class='container'>
   <div class='page-header'>
     <h1>Sample Datasets <small>Click to load and play</small></h1>
-    <div class='btn-group' data-toggle='buttons'>
-      <label id='matrix' class='btn btn-default dataset'>
-        <input type='radio'> The Matrix
-      </label>
-      <label id='twitter' class='btn btn-default dataset'>
-        <input type='radio'> Twitter
-      </label>
-    </div>
+    <div id='datasets' class='btn-group' data-toggle='buttons'></div>
   </div>
+
   <div class='panel panel-default'>
     <div class='panel-heading'>
-      <h3 class='panel-title'><b>OrlyScript</b></h3>
+      <h3 class='panel-title'>
+        <b>OrlyScript</b>
+        {{ Form::button('Compile', array('class' => 'btn btn-default',
+                                                 'id' => 'compile')); }}
+      </h3>
     </div>
-    {{ Form::textarea('orlyscript', '', array('disabled',
-                                              'class' => 'form-control',
+    {{ Form::textarea('orlyscript', '', array('class' => 'form-control',
                                               'id' => 'orlyscript')); }}
   </div>
   <div class='row'>
