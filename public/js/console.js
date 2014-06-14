@@ -1,6 +1,5 @@
 packages = {
   'matrix' : {
-    'address' : 'ws://127.0.0.1:8082/',
     'source' : '/* Matrix */\n' +
                '\n' +
                'package #1;\n',
@@ -15,7 +14,6 @@ packages = {
     },
   },
   'twitter' : {
-    'address' : 'ws://127.0.0.1:8082/',
     'source' : '/* Twitter */\n' +
                 '\n' +
                 'package #1;\n',
@@ -221,7 +219,7 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
       log('sent: ' + msg);
     }
     button.one('change', function() {
-      websocket = new WebSocket(info.address);
+      websocket = new WebSocket('ws://' + location.hostname + ':8082/');
       websocket.onerror = function(resp) {
         alert("Failed to connect.");
       };
