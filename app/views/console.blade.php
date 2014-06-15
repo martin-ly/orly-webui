@@ -11,13 +11,15 @@
     <h1>Sample Datasets <small>Click to load and play</small></h1>
     <div id='datasets' class='btn-group' data-toggle='buttons'></div>
   </div>
-
+  <div id='connection' class='alert fade in'></div>
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <h3 class='panel-title'>
         <b>OrlyScript</b>
         {{ Form::button('Compile', array('class' => 'btn btn-default',
-                                                 'id' => 'compile')); }}
+                                         'data-target' => 'modal',
+                                         'data-toggle' => 'modal',
+                                         'id' => 'compile')); }}
       </h3>
     </div>
     {{ Form::textarea('orlyscript', '', array('class' => 'form-control',
@@ -41,6 +43,7 @@
     </div>
     <div class='col-lg-2 col-md-2 col-sm-2'>
       {{ Form::button('Run', array('class' => 'btn btn-default',
+                                   'data-loading-text' => 'Running...',
                                    'id' => 'run')); }}
     </div>
   </div>
@@ -54,6 +57,18 @@
     {{ Form::textarea('log', '', array('disabled',
                                        'class' => 'form-control',
                                        'id' => 'log')); }}
+  </div>
+  <div class="modal fade bs-example-modal-sm" id="modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h4 id="modal-message" class="text-center"></h4>
+          <div class="progress progress-striped active">
+            <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 @stop

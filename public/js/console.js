@@ -2,6 +2,7 @@ pkgs = {
   /*
   beer: {
     desc: 'Beer',
+    src: '',
     version: 0,
   },
   complete_graph: {
@@ -471,6 +472,9 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
         });
         // Bind run button to the 'try' statement.
         $('#run').unbind().click(function() {
+          $('#modal-message').text('Running...');
+          var modal = $('#modal');
+          modal.modal('show');
           var args = [];
           $.each($('#args input'), function(idx, input) {
             var id = $(input).attr('id');
@@ -498,6 +502,7 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
                 break;
               }  // default
             }  // switch
+            modal.modal('hide');
           });  // try
         });  // bind run
       });  // list_packages
@@ -514,31 +519,45 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
     $('#datasets').append(label);
   });
   websocket.onerror = function() {
-    alert("Failed to connect to the server.");
+    $('#connection').removeClass('alert-success')
+                    .addClass('alert-danger')
+                    .text('Failed to connect');
   };
   websocket.onopen = function() {
+    $('#connection').removeClass('alert-danger')
+                    .addClass('alert-success')
+                    .text('Connected');
     // Create a session.
     send('new session;', function() {
       // Create a new pov to perform try statements.
       send('new fast private pov;', function(data) {
         pov_id = data.result;
-        $('#compile').unbind().click(function() {
+        $('#compile').click(function() {
+          $('#modal-message').text('Compiling...');
+          var modal = $('#modal');
+          modal.modal('show');
           send('compile ' + JSON.stringify($('#orlyscript').val()) + ';', function(data) {
             var result = $.parseJSON(data.result);
             load(result.name, result.version);
+            modal.modal('hide');
           });
         });
       });  // new fast private pov
       // Bind install/listing functions for each pkg.
       $.each(pkgs, function(name, info) {
-        var button = $('#' + name);
-        button.change(function() {
+        var btn = $('#' + name);
+        btn.change(function() {
           $('#orlyscript').val(info.src);
           load(name, info.version);
         });  // bind event
       });  // for each pkg
     });  // new session
   };
-  $('.btn').button();  // Activate buttons.
+  $('#modal').modal({
+    backdrop: 'static',
+    keyboard: false,
+    show: false,
+  });
+  $('.dataset').button();  // Activate buttons.
 });
 
