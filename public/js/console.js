@@ -247,6 +247,11 @@ require(['jquery', 'bootstrap', 'd3', 'packages'],
                     .append(info.desc);
     $('#datasets').append(label);
   });
+  websocket.onclose = function() {
+    $('#connection').removeClass('alert-success')
+                    .addClass('alert-danger')
+                    .text('Connection closed');
+  };
   websocket.onerror = function() {
     $('#connection').removeClass('alert-success')
                     .addClass('alert-danger')
