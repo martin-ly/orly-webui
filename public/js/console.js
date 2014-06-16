@@ -539,6 +539,8 @@ define(['jquery', 'bootstrap', 'd3'], function($, bootstrap, d3) {
           send('compile ' + JSON.stringify($('#orlyscript').val()) + ';', function(data) {
             var result = $.parseJSON(data.result);
             load(result.name, result.version);
+            // Uncheck the radio button.
+            $('.dataset').removeClass('active');
             modal.modal('hide');
           });
         });
