@@ -169,7 +169,7 @@ require(['jquery', 'bootstrap', 'd3', 'packages'],
   function load(name, version) {
     send('install ' + name + '.' + version + ';', function() {
       send('list_packages;', function(data) {
-        var result = $.parseJSON(data.result);
+        var result = data.result;
         var pkg_info = result.packages.filter(function(elem, idx) {
           return elem.name == name;
         })[0];
