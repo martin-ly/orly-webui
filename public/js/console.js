@@ -213,26 +213,29 @@ require(['jquery', 'bootstrap', 'd3', 'packages'],
           send('try {' + pov_id + '} ' + name + ' ' +
                $('#function').val() + ' ' +
                '<{' + args.join(', ') + '}>;', function(data) {
-            if (data.status !== "ok") {
-              return;
-            }  // if
-            var result = $.parseJSON(data.result);
-            switch (result.type) {
-              case 'table': {
-                render_table(result.data);
-                break;
-              }  // case
-              case 'graph': {
-                render_graph(result.data);
-                break;
-              }  // case
-              default: {
-                console.log(result);
-                break;
-              }  // default
-            }  // switch
-            modal.modal('hide');
-          });  // try
+            try {
+              if (data.status !== "ok") {
+                return;
+              }  // if
+              var result = $.parseJSON(data.result);
+              switch (result.type) {
+                case 'table': {
+                  render_table(result.data);
+                  break;
+                }  // case
+                case 'graph': {
+                  render_graph(result.data);
+                  break;
+                }  // case
+                default: {
+                  console.log(result);
+                  break;
+                }  // default
+              }  // switch
+            } finally {
+              modal.modal('hide');
+            }  // try
+          });  // try_stmt
         });  // bind run
       });  // list_packages
     });  // install
@@ -271,11 +274,14 @@ require(['jquery', 'bootstrap', 'd3', 'packages'],
           var modal = $('#modal');
           modal.modal('show');
           send('compile ' + JSON.stringify($('#orlyscript').val()) + ';', function(data) {
-            var result = data.result;
-            load(result.name, result.version);
-            // Uncheck the radio button.
-            $('.dataset').removeClass('active');
-            modal.modal('hide');
+            try {
+              var result = data.result;
+              load(result.name, result.version);
+              // Uncheck the radio button.
+              $('.dataset').removeClass('active');
+            } finally {
+              modal.modal('hide');
+            }  // try
           });
         });
       });  // new fast private pov
