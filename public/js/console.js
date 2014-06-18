@@ -271,7 +271,7 @@ require(['jquery', 'bootstrap', 'd3', 'packages'],
           var modal = $('#modal');
           modal.modal('show');
           send('compile ' + JSON.stringify($('#orlyscript').val()) + ';', function(data) {
-            var result = $.parseJSON(data.result);
+            var result = data.result;
             load(result.name, result.version);
             // Uncheck the radio button.
             $('.dataset').removeClass('active');
