@@ -40,11 +40,10 @@ define(['jquery'], function($) {
       desc: 'Twitter',
       version: 1,
     },
+    twitter_ego: {
+      desc: 'Twitter-EGO',
+      version: 0,
+    },
   };
-  $.each(result, function(key, val) {
-    $.get('packages/' + key + '.orly', function(data) {
-      val.src = data;
-    });
-  });
   return result;
 });

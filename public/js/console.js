@@ -289,8 +289,11 @@ require(['jquery', 'bootstrap', 'd3', 'packages'],
       $.each(pkgs, function(name, info) {
         var btn = $('#' + name);
         btn.change(function() {
-          $('#orlyscript').val(info.src);
-          load(name, info.version);
+          send('get_source ' + name + ';', function(data) {
+            var result = data.result;
+            $('#orlyscript').val(result.code);
+            load(name, info.version);
+          });  // get_source
         });  // bind event
       });  // for each pkg
     });  // new session
