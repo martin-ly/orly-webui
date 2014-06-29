@@ -175,14 +175,20 @@ require(['jquery', 'bootstrap', 'd3', 'packages'],
         })[0];
         // Populate the list of functions.
         $('#function').empty();
-        if (pkgs[name] === undefined) {
+        if (typeof pkgs[name] === 'undefined') {
           pkgs[name] = {}
         }  // if
-        pkgs[name].functions = {};
+        if (typeof pkgs[name].functions === 'undefined') {
+          pkgs[name].functions = {};
+        }  // if
         $.each(pkg_info.functions, function(fn_name, signature) {
-          pkgs[name].functions[fn_name] = {};
+          if (typeof pkgs[name].functions[fn_name] === 'undefined') {
+            pkgs[name].functions[fn_name] = {};
+          }  // if
           $.each(signature.parameters, function(param_name, type) {
-            pkgs[name].functions[fn_name][param_name] = type;
+            if (typeof pkgs[name].functions[fn_name][param_name] === 'undefined') {
+              pkgs[name].functions[fn_name][param_name] = type;
+            }  // if
           });
           $('#function').append($('<option></option>')
                         .attr('value', fn_name).text(fn_name));
@@ -194,7 +200,8 @@ require(['jquery', 'bootstrap', 'd3', 'packages'],
               $('#args tbody').append(
                   '<tr>' +
                   '<td>' + key + '</td>' +
-                  "<td><input id=" + key + " type='text' value='" + val + "'></td>" +
+                  "<td><input id=" + key + " type='text' value=" +
+                  JSON.stringify(val) + "></td>" +
                   '</tr>');
             });
           }).change();
